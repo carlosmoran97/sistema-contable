@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Catálogo de productos</title>
+        <script src="/jquery/dist/jquery.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+          var socket = io.connect('http://localhost:3000',{'forceNew':true});
+
+          socket.on('consulta-productos', (data) => {
+            render(data);
+          });
+
+          var render = (data) => {
+            var length = data.length;
+            var html = `<table border="1">
+                          <thead>
+                            <tr>
+                              <th>Nombre</th>
+                              <th>Descripción</th>
+                              <th>Precio Unitario</th>
+                            </tr>
+                          </thead>
+                        <tbody>`;
+            for(i = 0; i < length; i++){
+              html+=`<tr>
+                      <td>${data[i].nombre}</td>
+                      <td>${data[i].descripcion}</td>
+                      <td>${data[i].precioUnitario}</td>
+                    </tr>`;
+            }
+            html += '</tbody></table>';
+            document.getElementById('tabla-catalogo').innerHTML = html;
+          };
+        </script>
+    </head>
+    <body>
+      {{> nav}}
+        <h1>Catálogo de productos</h1>
+        <div id="tabla-catalogo">
+        </div>
+    </body>
+</html>
