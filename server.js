@@ -22,8 +22,10 @@ io.on('connection', (socket) => {
   console.log('Alguien se ha conectado con Sockets');
   Producto.find().then((productos) =>{
     socket.emit('consulta-productos', productos);
+    socket.emit('venta-producto', productos);
   });
 });
+
 //páginas
 
 
@@ -56,6 +58,17 @@ app.post('/agregar-productos', (req, res) => {
 
 app.get('/catalogo', (req, res) => {
   res.render('catalogo.hbs');
+});
+
+app.get('/agregar-venta', (req, res) => {
+  res.render('agregar-venta.hbs');
+});
+
+app.post('/agregar-venta', (req, res) => {
+  console.log(JSON.stringify(req.body, undefined, 2));
+  res.render('agregar-venta.hbs', {
+    message: 'Venta agregada'
+  })
 });
 
 server.listen(port, () =>{

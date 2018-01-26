@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Agregar venta</title>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    {{> nav}}
+    {{message}}
+    <form action="/agregar-venta" method="POST">
+      <select id="lista-productos">
+      </select>
+      <input type="submit" id="btnEnviar" value="Guardar">
+    </form>
+    <!-- <script type="text/javascript">
+      var socket = io.connect('http://localhost:3000', {'forceNew': true});
+      var listaProductos = document.getElementById("lista-productos");
+
+      socket.on('venta-producto', (data) => {
+        listaProductos.length = data.length;
+        for (var i = 0; i < listaProductos.length; i++) {
+          listaProductos.options[i] = new Option(data[i].nombre,data[i]._id);
+        }
+      });
+    </script> -->
+  </body>
+</html>
