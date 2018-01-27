@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"nodemon server.js -e js,hbs"
+    "start": "nodemon server.js -e js,hbs"
   },
-  "engines":{
-    "node":"9.4.0"
+  "engines": {
+    "node": "9.4.0"
   },
   "author": "",
   "license": "ISC",

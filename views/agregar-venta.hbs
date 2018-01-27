@@ -14,6 +14,13 @@
           _id: document.getElementById("lista-productos").value
         });
         socket.on('obtenerProducto', function(data){
+          var precioProducto = Intl.NumberFormat('es-US',{
+              style: 'currency',
+              currency: 'USD',
+              minimumFractionDigits: '2',
+              maximumFractionDigits: '2',
+              minimumIntegerDigits: '1'
+            });   
           var tabla = document.getElementById("tablaLineasDeVenta");
           var lineaDeVenta = {
             cantidad: document.getElementById("cantidad").value,
@@ -27,6 +34,7 @@
                             <th>Cantidad</th>
                             <th>Descripción</th>
                             <th>Precio Unitario</th>
+                            <th>Total de línea</th>
                           </tr>
                         </thead>
                         <tbody>`;
@@ -34,11 +42,13 @@
             html += `<tr>
                       <td>${lineasDeVenta[i].cantidad}</td>
                       <td>${lineasDeVenta[i].nombre}</td>
-                      <td>${lineasDeVenta[i].precioUnitario}</td>
+                      <td>${precioProducto.format(lineasDeVenta[i].precioUnitario)}</td>
+                      <td>${precioProducto.format(lineasDeVenta[i].cantidad * lineasDeVenta[i].precioUnitario)}</td>
                     </tr>`;
           }
           html += '</tbody>'
           tabla.innerHTML = html;
+          calcularTotal(lineasDeVenta);
         });
       }
     </script>
@@ -76,8 +86,27 @@
                       +    "<th>Cantidad</th>"
                       +    "<th>Descripción</th>"
                       +    "<th>Precio Unitario</th>"
+                      +    "<th>Total de línea</th>"
                       +  "</tr>"
                       +"</thead>";
+        document.getElementById('ventaTotal').innerHTML = '$0.00';
+      }
+    </script>
+    <script type="text/javascript">
+      function calcularTotal(lineasDeVenta){
+        var ventaTotalElement = document.getElementById('ventaTotal');
+        var ventaTotal = 0;
+        var precioProd = Intl.NumberFormat('es-US',{
+              style: 'currency',
+              currency: 'USD',
+              minimumFractionDigits: '2',
+              maximumFractionDigits: '2',
+              minimumIntegerDigits: '1'
+            });  
+        for(var i = 0; i < lineasDeVenta.length; i++){
+          ventaTotal += lineasDeVenta[i].cantidad * lineasDeVenta[i].precioUnitario;
+        }
+        ventaTotalElement.innerHTML = precioProd.format(ventaTotal);
       }
     </script>
   </head>
@@ -103,10 +132,13 @@
             <th>Cantidad</th>
             <th>Descripción</th>
             <th>Precio Unitario</th>
+            <th>Total de línea</th>
           </tr>
         </thead>
       </table>
       <br/>
+      <label for="ventaTotal">Venta total: </label>
+      <label id="ventaTotal">$0.00</label><br><br>
       <input type="button" id="btnEnviar" value="Guardar" onclick="guardarVenta();">
     </form>
     <script type="text/javascript">
