@@ -24,6 +24,21 @@ io.on('connection', (socket) => {
     socket.emit('consulta-productos', productos);
     socket.emit('venta-producto', productos);
   });
+
+  // cliente solicita id de producto
+  socket.on('obtenerProducto', function(data){
+    Producto.findById(data._id).then((producto) => {
+      socket.emit('obtenerProducto', {
+        nombre: producto.nombre,
+        precioUnitario: producto.precioUnitario
+      });
+    });
+  });
+
+  // cliente solicita guardar la Venta
+  socket.on('guardar-venta', (data) => {
+    console.log('Recibo desde el cliente:\n',data);
+  });
 });
 
 //páginas
@@ -64,12 +79,11 @@ app.get('/agregar-venta', (req, res) => {
   res.render('agregar-venta.hbs');
 });
 
-app.post('/agregar-venta', (req, res) => {
-  console.log(JSON.stringify(req.body, undefined, 2));
-  res.render('agregar-venta.hbs', {
-    message: 'Venta agregada'
-  })
-});
+// app.post('/agregar-venta', (req, res) => {
+//   res.render('agregar-venta.hbs', {
+//     message: 'Venta agregada'
+//   })
+// });
 
 server.listen(port, () =>{
   console.log('Listen on port ' + port);
