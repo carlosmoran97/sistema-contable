@@ -9,7 +9,7 @@
     </script>
     <script type="text/javascript">
       function agregarLineaDeVenta() {
-        var socket = io.connect('http://localhost:3000');
+        var socket = io.connect('/');
         socket.emit('obtenerProducto', {
           _id: document.getElementById("lista-productos").value
         });
@@ -56,7 +56,7 @@
       function guardarVenta(){
         if(lineasDeVenta.length !== 0){
           // información validada
-          var socket = io.connect('http://localhost:3000');
+          var socket = io.connect('/');
           var fecha = document.getElementById("fechaDeVenta").value;
           var numFact = document.getElementById("numFact").value;
           var venta = {
@@ -142,7 +142,7 @@
       <input type="button" id="btnEnviar" value="Guardar" onclick="guardarVenta();">
     </form>
     <script type="text/javascript">
-      var socket = io.connect('http://localhost:3000', {'forceNew': true});
+      var socket = io.connect('/', {'forceNew': true});
       var listaProductos = document.getElementById("lista-productos");
 
       socket.on('venta-producto', (data) => {
