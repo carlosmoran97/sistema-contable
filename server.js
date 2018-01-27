@@ -43,6 +43,15 @@ io.on('connection', (socket) => {
 
 //páginas
 
+app.get('/', (req, res) => {
+  res.send(`<nav>
+  <a href="/agregar-productos">Agregar productos</a><br/>
+  <a href="/catalogo">Ver catalogo</a><br/>
+  <a href="/agregar-venta">Agregar venta</a><br>
+  <a href="/movimientos">Movimientos</a>
+</nav>
+`);
+});
 
 app.get('/agregar-productos', (req, res) => {
   res.render('index.hbs');
